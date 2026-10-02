@@ -1,0 +1,140 @@
+/* ============================================================
+   Carte de visite – style.css
+   Palette : sable doré, brun-encre, bordeaux, ocre
+   Polices : Bricolage Grotesque (titres) + DM Sans (texte)
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500&display=swap");
+
+:root {
+    --fond: #efd9b6;
+    --fond-carte: #fbf3e4;
+    --encre: #3a2418;
+    --encre-douce: #6b4a36;
+    --ocre: #b9791a;
+    --bordeaux: #7a2a2e;
+
+    --police-titre: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+    --police-texte: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    background: var(--fond);
+}
+
+body {
+    position: relative;
+    max-width: 68rem;
+    margin: 0 auto;
+    padding: clamp(2rem, 7vw, 5.5rem) clamp(1.25rem, 5vw, 3rem) 4rem;
+    color: var(--encre);
+    font-family: var(--police-texte);
+    font-size: 1.125rem;
+    line-height: 1.65;
+    overflow-x: hidden;
+}
+
+/* ---------- Titre ---------- */
+
+h1 {
+    max-width: 13ch;
+    margin: 0 0 1.5rem;
+    color: var(--bordeaux);
+    font-family: var(--police-titre);
+    font-size: clamp(2.8rem, 8vw, 5rem);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+}
+
+p {
+    max-width: 58ch;
+    margin: 0 0 3.5rem;
+    color: var(--encre-douce);
+}
+
+/* ---------- Petite carte décorative (clin d'œil à la carte de visite) ---------- */
+
+body::before {
+    content: "";
+    position: absolute;
+    top: clamp(2rem, 7vw, 5.5rem);
+    right: clamp(1.25rem, 5vw, 3rem);
+    width: min(23rem, 34vw);
+    aspect-ratio: 7 / 4;
+    background:
+        linear-gradient(var(--ocre), var(--ocre)) 1.25rem 1.25rem / 2.5rem 0.35rem no-repeat,
+        linear-gradient(var(--encre), var(--encre)) 1.25rem 2.6rem / 55% 0.5rem no-repeat,
+        linear-gradient(#d9b98d, #d9b98d) 1.25rem 3.7rem / 38% 0.35rem no-repeat,
+        var(--fond-carte);
+    border: 1px solid #dcc08f;
+    border-radius: 6px;
+    box-shadow: 0.6rem 0.8rem 0 rgba(122, 42, 46, 0.16);
+    transform: rotate(4deg);
+    pointer-events: none;
+}
+
+/* ---------- Tableau des fonctionnalités ---------- */
+
+table {
+    display: block;
+    width: 100%;
+}
+
+tbody {
+    display: block;
+}
+
+tr {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+}
+
+th {
+    padding-top: 1.1rem;
+    border-top: 4px solid var(--ocre);
+    color: var(--encre);
+    font-family: var(--police-titre);
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1.25;
+    text-align: left;
+    text-transform: capitalize;
+}
+
+/* ---------- Accessibilité ---------- */
+
+:focus-visible {
+    outline: 3px solid var(--ocre);
+    outline-offset: 3px;
+}
+
+/* ---------- Tablette / mobile ---------- */
+
+@media (max-width: 52rem) {
+    body::before {
+        display: none;
+    }
+
+    h1 {
+        max-width: none;
+    }
+}
+
+@media (max-width: 40rem) {
+    tr {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+    }
+
+    body {
+        font-size: 1.05rem;
+    }
+}

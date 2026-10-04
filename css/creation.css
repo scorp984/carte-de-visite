@@ -1,0 +1,83 @@
+@import url("./style.css");
+
+#creation-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+    max-width: 42rem;
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    background: var(--fond-carte);
+    border: 1px solid #dcc08f;
+    border-radius: 6px;
+    box-shadow: 0.6rem 0.8rem 0 rgba(122, 42, 46, 0.12);
+}
+
+#creation-form label {
+    margin-top: 0.75rem;
+    color: var(--encre);
+    font-family: var(--police-titre);
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+#social-links,
+.social-link-field {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.social-link-field + .social-link-field {
+    margin-top: 0.5rem;
+}
+
+#creation-form input {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.7rem 0.85rem;
+    color: var(--encre);
+    font: inherit;
+    background: #fffdf8;
+    border: 1px solid #cdbb9d;
+    border-radius: 4px;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+#creation-form input::placeholder {
+    color: #8b7968;
+}
+
+#creation-form input:focus-visible {
+    border-color: var(--bordeaux);
+    outline: 3px solid rgba(122, 42, 46, 0.18);
+    outline-offset: 1px;
+}
+
+#creation-form button {
+    justify-self: start;
+    min-height: 3rem;
+    margin-top: 1.25rem;
+    padding: 0.7rem 1.25rem;
+    color: var(--fond-carte);
+    font: 600 1rem var(--police-titre);
+    background: var(--bordeaux);
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 160ms ease, transform 160ms ease;
+}
+
+#creation-form button:hover {
+    background: var(--encre);
+    transform: translateY(-1px);
+}
+
+#creation-form button:focus-visible {
+    outline: 3px solid var(--ocre);
+    outline-offset: 3px;
+}
+
+@media (max-width: 40rem) {
+    #creation-form button {
+        justify-self: stretch;
+    }
+}

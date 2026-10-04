@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/creation.css">
+    <script src="../js/creation.js" defer></script>
+    <title>Document</title>
+</head>
+<body>
+    <h1>Création rapide</h1>
+    <p>Bienvenue sur la page de création rapide !</p>
+    
+    <form id="creation-form">
+        <label for="name">Nom de l'entreprise :</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="email">Email :</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="phone">Numéro de téléphone :</label>
+        <input type="tel" id="phone" name="phone" required>
+
+        <label for="website">Site web :</label>
+        <input type="url" id="website" name="website" required>
+
+        <label for="social">Réseaux sociaux :</label>
+        <input type="text" id="social" name="social" placeholder="Ex: Facebook, Twitter, Instagram , github" required>
+        <button type="button" id="add-social">Ajouter un réseau social</button>
+        <div id="social-links"></div>
+        <button type="button" id="remove-social">Supprimer le dernier réseau social</button>
+        
+        <button type="submit">Créer la carte</button>
+    </form>
+</body>
+</html>

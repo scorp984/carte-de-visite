@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/creation.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+    <script src="../js/qr-code.js" defer></script>
     <script src="../js/creation.js" defer></script>
     <title>Créer une carte de visite</title>
 </head>
@@ -21,17 +23,18 @@
         <label for="phone">Numéro de téléphone :</label>
         <input type="tel" id="phone" name="phone" required>
 
-        <label for="website">Site web :</label>
-        <input type="url" id="website" name="website" required>
-
-        <label for="social">Réseaux sociaux :</label>
-        <input type="text" id="social" name="social" placeholder="Ex: Facebook, Twitter, Instagram , github" required>
+        <label for="website">Site web  ou réseaux sociaux:</label>
+        <input type="url" id="website" name="website"  placeholder="Ex: Facebook, Twitter, Instagram , github"required>
+        <button id="generate-qr" type="button">Générer le QR code</button>
         <button type="button" id="add-social">Ajouter un réseau social</button>
         <div id="social-links"></div>
         <button type="button" id="remove-social">Supprimer le dernier réseau social</button>
+
+        <div id="qrcode"></div>
         
         <button type="submit">Créer la carte</button>
     </form>
     <div id="card-preview" aria-live="polite"></div>
+    <button id = "retour"><a href="index.html">Retour</a></button>
 </body>
 </html>

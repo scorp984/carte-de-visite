@@ -78,6 +78,11 @@ formulaire?.addEventListener("submit", (event) => {
         carte.dataset.theme = donneesCarte.theme;
     }
 
+    const libelleCarte = document.createElement("p");
+    libelleCarte.className = "business-card-label";
+    libelleCarte.textContent = "Carte de visite";
+    carte.appendChild(libelleCarte);
+
     // Ajoute le nom comme titre principal de la carte.
     const titre = document.createElement("h2");
     titre.textContent = donnees.get("name");

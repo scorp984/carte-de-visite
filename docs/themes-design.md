@@ -34,7 +34,8 @@ Les trois styles s'inspirent des grandes familles de cartes de visite : sobre et
 | Accent | `#7A2A2E` / `#B9791A` |
 
 - **Polices** : Bricolage Grotesque pour les titres, DM Sans pour le texte.
-- **Effets** : bordure ocre et ombre bordeaux discrète.
+- **Effets** : format horizontal, coins asymétriques, filet ocre, reflet doux et ombre papier.
+- **Présentation** : coordonnées alignées sous le nom ; réseaux présentés en pastilles et QR code dans un cadre clair.
 - **QR code** : modules sombres sur fond clair.
 
 ### 2.2 Luxe (`luxe`)
@@ -51,9 +52,9 @@ Les trois styles s'inspirent des grandes familles de cartes de visite : sobre et
 
 - **Polices** : Georgia pour les titres, avec une police système pour le texte.
 - **Effets** :
-  - dégradé doré (`linear-gradient` combiné à `background-clip: text`) sur le nom ou la bordure ;
-  - ombre douce autour de la carte pour l'effet « papier épais » ;
-  - léger reflet au survol pour imiter un vernis.
+  - fond profond avec halo doré et fin liseré métallique ;
+  - nom et libellés mis en valeur par des accents or ;
+  - ombre douce et léger relief au survol pour évoquer un papier épais.
 - **QR code** : placé dans une **pastille claire**, car les QR inversés (clairs sur fond sombre) sont mal lus par certains lecteurs.
 
 ### 2.3 Moderne / tech (`tech`)
@@ -70,7 +71,7 @@ Les trois styles s'inspirent des grandes familles de cartes de visite : sobre et
 | Accent (option B) | `#3DDC97` |
 
 - **Polices** : pile monospace système pour évoquer un terminal.
-- **Effets** : bordure ou ombre lumineuse (`box-shadow`), petite animation au survol.
+- **Effets** : trame discrète en grille, halo bleu, liseré lumineux et accents verts façon interface de développement.
 - **QR code** : dans une **pastille claire**, comme pour le thème luxe.
 
 ## 3. Comment les thèmes sont construits
@@ -93,6 +94,7 @@ Dans les données, la carte stocke le nom du thème dans le champ `theme`. Les a
 - **Contraste** : le texte doit rester lisible. Viser un ratio d'au moins **4,5:1** pour le texte normal (outil de contraste WCAG). À surveiller en particulier pour l'or sur fond sombre et le gris secondaire sur blanc cassé.
 - **QR code** : toujours des modules sombres sur fond clair, et une marge claire autour (zone de silence).
 - **Responsive** : la carte doit rester lisible sur mobile.
+- **Mouvement** : les effets de survol respectent la préférence système de réduction des animations.
 - **Polices** : libres de droits (Google Fonts, le plus souvent sous licence SIL OFL) et **auto-hébergées** dans le dépôt pour ne pas envoyer l'adresse IP des visiteurs à Google.
 - **Icônes** : Simple Icons (CC0). Les logos de réseaux ne servent qu'à désigner leur service.
 - **Pas de dépendance au thème pour le contenu** : changer de thème ne modifie jamais les données saisies.

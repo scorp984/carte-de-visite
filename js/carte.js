@@ -58,6 +58,11 @@ try {
             card.dataset.theme = data.theme;
         }
 
+        const label = document.createElement("p");
+        label.className = "business-card-label";
+        label.textContent = "Carte de visite";
+        card.appendChild(label);
+
         const heading = document.createElement("h2");// Crée un élément <h2> pour le titre de la carte
         heading.textContent = typeof data.nom === "string" && data.nom ? data.nom : "Carte de visite";
         card.appendChild(heading);// Ajoute le titre à la carte

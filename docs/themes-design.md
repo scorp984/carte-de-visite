@@ -1,6 +1,6 @@
 # Thèmes de design
 
-Le site propose **3 thèmes de base** pour la carte. Ce document explique à quoi ils servent, pourquoi ils ont été choisis, comment ils sont construits et comment en ajouter un.
+Le site propose trois styles pour la carte : le **style actuel**, ainsi que les thèmes **Luxe** et **Moderne / tech**. Le style actuel reste sélectionné par défaut. Ce document explique à quoi ils servent, comment ils sont construits et comment en ajouter un.
 
 ## 1. Pourquoi ces trois thèmes ?
 
@@ -8,7 +8,7 @@ Le site s'adresse à des **particuliers comme à des entreprises**, avec une cib
 
 | Thème | Besoin couvert | Pour qui ? |
 |---|---|---|
-| **Minimaliste** | Un rendu sobre, lisible et professionnel, qui va à l'essentiel | Tout le monde ; le choix « sûr » pour un CV, un entretien, un contact pro |
+| **Style actuel** (`classic`) | Fond crème, encre brune et accents bordeaux/ocre, pour une présentation chaleureuse | Tout le monde ; le choix par défaut |
 | **Luxe** | Une carte qui marque les esprits, avec un côté haut de gamme | Freelances, indépendants, personnes qui veulent se démarquer |
 | **Moderne / tech** | Un style qui parle au monde du code | Développeurs, étudiants en informatique, profils techniques |
 
@@ -21,21 +21,21 @@ Les trois styles s'inspirent des grandes familles de cartes de visite : sobre et
 
 ## 2. Fiche de chaque thème
 
-### 2.1 Minimaliste (`minimal`)
+### 2.1 Style actuel (`classic`)
 
-- **Idée** : lignes simples, grands espaces blancs, typographie soignée, couleurs neutres.
-- **Pourquoi** : c'est le style le plus polyvalent et le plus lisible. Il fonctionne dans presque tous les contextes professionnels.
+- **Idée** : fond crème, texte brun et accents bordeaux et ocre.
+- **Pourquoi** : c'est le style chaleureux déjà présent sur le site ; il reste le choix par défaut pour préserver l'apparence actuelle.
 - **Palette** :
 
 | Rôle | Couleur |
 |---|---|
-| Fond | `#FAFAF8` |
-| Texte principal | `#1A1A1A` |
-| Texte secondaire | `#6B6B6B` |
+| Fond de carte | `#FBF3E4` |
+| Texte principal | `#3A2418` |
+| Accent | `#7A2A2E` / `#B9791A` |
 
-- **Polices** : Inter (ou IBM Plex Sans) pour les titres et le texte.
-- **Effets** : fines lignes de 1 px, marges généreuses. Pas d'animation voyante.
-- **QR code** : modules sombres sur fond clair, sans contrainte particulière.
+- **Polices** : Bricolage Grotesque pour les titres, DM Sans pour le texte.
+- **Effets** : bordure ocre et ombre bordeaux discrète.
+- **QR code** : modules sombres sur fond clair.
 
 ### 2.2 Luxe (`luxe`)
 
@@ -49,7 +49,7 @@ Les trois styles s'inspirent des grandes familles de cartes de visite : sobre et
 | Texte principal | `#F5F0E6` |
 | Accent (or) | `#C9A961` |
 
-- **Polices** : Playfair Display pour les titres, Inter pour le texte.
+- **Polices** : Georgia pour les titres, avec une police système pour le texte.
 - **Effets** :
   - dégradé doré (`linear-gradient` combiné à `background-clip: text`) sur le nom ou la bordure ;
   - ombre douce autour de la carte pour l'effet « papier épais » ;
@@ -69,33 +69,24 @@ Les trois styles s'inspirent des grandes familles de cartes de visite : sobre et
 | Accent (option A) | `#58A6FF` |
 | Accent (option B) | `#3DDC97` |
 
-- **Polices** : Space Grotesk pour les titres, JetBrains Mono pour le texte.
+- **Polices** : pile monospace système pour évoquer un terminal.
 - **Effets** : bordure ou ombre lumineuse (`box-shadow`), petite animation au survol.
 - **QR code** : dans une **pastille claire**, comme pour le thème luxe.
 
 ## 3. Comment les thèmes sont construits
 
-Il n'y a **qu'une seule structure HTML** pour la carte. Le thème change uniquement l'apparence grâce à un attribut et à des variables CSS :
+Il n'y a **qu'une seule structure HTML** pour la carte. Le choix est enregistré avec les données et appliqué à l'aperçu comme à la carte construite depuis ces données. `classic` conserve le style par défaut ; `luxe` et `tech` sont appliqués par l'attribut `data-theme` et des règles CSS :
 
 ```html
-<div class="card" data-theme="luxe"> ... </div>
+<section class="business-card" data-theme="luxe"> ... </section>
 ```
 
 ```css
-.card {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-text);
-}
-
-.card[data-theme="minimal"] { --bg: #FAFAF8; --text: #1A1A1A; /* ... */ }
-.card[data-theme="luxe"]    { --bg: #111111; --text: #F5F0E6; /* ... */ }
-.card[data-theme="tech"]    { --bg: #0D1117; --text: #E6EDF3; /* ... */ }
+.business-card[data-theme="luxe"] { background: #111; color: #F5F0E6; /* ... */ }
+.business-card[data-theme="tech"] { background: #0D1117; color: #E6EDF3; /* ... */ }
 ```
 
-Variables principales : `--bg`, `--text`, `--text-muted`, `--accent`, `--font-title`, `--font-text`.
-
-Dans les données, la carte ne stocke que le **nom du thème** (champ `theme`). Voir `format-des-donnees.md`.
+Dans les données, la carte stocke le nom du thème dans le champ `theme`. Les anciennes cartes sans ce champ gardent le style actuel. Voir `format-des-donnees.md`.
 
 ## 4. Règles communes à tous les thèmes
 
@@ -109,7 +100,7 @@ Dans les données, la carte ne stocke que le **nom du thème** (champ `theme`). 
 ## 5. Ajouter un nouveau thème
 
 1. Choisir un nom court en minuscules (par exemple `chaleureux`).
-2. Ajouter un bloc `.card[data-theme="chaleureux"]` avec toutes les variables de la section 3.
+2. Ajouter un bloc `.business-card[data-theme="chaleureux"]` dans `css/creation.css`.
 3. Vérifier le contraste et le scan du QR code sur ce thème.
 4. Ajouter le nom dans la liste des thèmes acceptés par la validation (`format-des-donnees.md`, champ `theme`).
 5. Ajouter l'option dans le sélecteur de thème du formulaire.

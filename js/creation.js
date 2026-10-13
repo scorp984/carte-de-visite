@@ -6,7 +6,7 @@ const formulaire = document.getElementById("creation-form");
 const apercuCarte = document.getElementById("card-preview");
 
 // Arrête le script immédiatement si la page ne contient pas un élément requis.
-if (!boutonAjoutReseau || !conteneurReseaux || !boutonSuppressionReseau || !formulaire || !apercuCarte) {
+if (formulaire && (!boutonAjoutReseau || !conteneurReseaux || !boutonSuppressionReseau || !apercuCarte)) {
     throw new Error("Un élément nécessaire au formulaire de création est introuvable.");
 }
 
@@ -59,13 +59,24 @@ function ajouterInformation(parent, etiquette, valeur) {
 }
 
 // Intercepte l'envoi du formulaire pour afficher la carte sans recharger la page.
-formulaire.addEventListener("submit", (event) => {
+formulaire?.addEventListener("submit", (event) => {
     event.preventDefault();
 
     // FormData associe chaque valeur saisie à l'attribut name de son champ.
     const donnees = new FormData(formulaire);
+    const donneesCarte = {
+        nom: donnees.get("name"),
+        email: donnees.get("email"),
+        telephone: donnees.get("phone"),
+        lien: donnees.get("website"),
+        theme: donnees.get("theme"),
+        reseaux: donnees.getAll("social").filter((reseau) => reseau.trim() !== "")
+    };
     const carte = document.createElement("section");
     carte.className = "business-card";
+    if (donneesCarte.theme === "luxe" || donneesCarte.theme === "tech") {
+        carte.dataset.theme = donneesCarte.theme;
+    }
 
     // Ajoute le nom comme titre principal de la carte.
     const titre = document.createElement("h2");
@@ -75,7 +86,6 @@ formulaire.addEventListener("submit", (event) => {
     // Ajoute les coordonnées principales à l'aperçu.
     ajouterInformation(carte, "Email", donnees.get("email"));
     ajouterInformation(carte, "Téléphone", donnees.get("phone"));
-    ajouterInformation(carte, "Site web", donnees.get("website"));
 
     // getAll récupère tous les champs portant name="social" ; les champs vides
     // sont ignorés pour ne pas afficher de lignes sans contenu.
@@ -102,8 +112,22 @@ formulaire.addEventListener("submit", (event) => {
 
     // Remplace l'ancien aperçu par la carte qui vient d'être créée.
     apercuCarte.replaceChildren(carte);
+
+    try {
+        localStorage.setItem("carte-visite", JSON.stringify(donneesCarte));
+    } catch (error) {
+        console.error("Impossible d'enregistrer la carte dans le navigateur :", error);
+        const erreur = document.createElement("p");
+        erreur.className = "card-error";
+        erreur.textContent = "La carte est affichée, mais n’a pas pu être enregistrée dans ce navigateur.";
+        apercuCarte.appendChild(erreur);
+    }
 });
 
 // Relie les boutons à leurs actions.
-boutonAjoutReseau.addEventListener("click", ajouterChamp);
-boutonSuppressionReseau.addEventListener("click", supprimerChamp);
+if (boutonAjoutReseau) {
+    boutonAjoutReseau.addEventListener("click", ajouterChamp);
+}
+if (boutonSuppressionReseau) {
+    boutonSuppressionReseau.addEventListener("click", supprimerChamp);
+}

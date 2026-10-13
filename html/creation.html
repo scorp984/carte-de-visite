@@ -23,6 +23,13 @@
         <label for="phone">Numéro de téléphone :</label>
         <input type="tel" id="phone" name="phone" required>
 
+        <label for="theme">Thème de la carte :</label>
+        <select id="theme" name="theme">
+            <option value="classic">Style actuel</option>
+            <option value="luxe">Luxe</option>
+            <option value="tech">Moderne / tech</option>
+        </select>
+
         <label for="website">Site web  ou réseaux sociaux:</label>
         <input type="url" id="website" name="website"  placeholder="Ex: Facebook, Twitter, Instagram , github"required>
         <button id="generate-qr" type="button">Générer le QR code</button>
@@ -34,6 +41,8 @@
         
         <button type="submit">Créer la carte</button>
     </form>
+    <button id="carte"><a href = "carte.html">Voir la carte</a></button>
+
     <div id="card-preview" aria-live="polite"></div>
     <button id = "retour"><a href="index.html">Retour</a></button>
 </body>

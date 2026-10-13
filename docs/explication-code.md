@@ -166,7 +166,7 @@ carte.appendChild(qrCarte);
 apercuCarte.replaceChildren(carte);
 ```
 
-Le QR de l’aperçu reçoit la même adresse du site. `replaceChildren(carte)` remplace l’ancien aperçu par la nouvelle carte.
+Le QR de l’aperçu reçoit la même adresse du site. `replaceChildren(carte)` remplace l’ancien aperçu par la nouvelle carte. Les informations sont aussi enregistrées dans le `localStorage` sous la clé `carte-visite` pour que la page « Carte » puisse les retrouver.
 
 ## 4. Mise en forme : `css/creation.css`
 
@@ -204,19 +204,20 @@ Le sélecteur `button` applique le style de base : fond dégradé, coins arrondi
 
 `transition` anime progressivement les changements de couleur, de position et d’ombre. Le lien à l’intérieur du bouton est ciblé par `button a` pour le centrer, le colorer et retirer son soulignement.
 
-## 6. Fichiers de l’ancienne destination carte
+## 6. Page de la carte
 
-`html/carte.html` et `js/carte.js` forment un ancien parcours : la page lit un paramètre `d` de l’URL, le décode puis construit une carte à partir des données reçues.
+`html/carte.html` et `js/carte.js` affichent la dernière carte créée et enregistrée dans le navigateur. La page accepte aussi le paramètre `d` de l’URL, le décode puis construit une carte à partir des données reçues ; dans ce cas, les données du lien sont prioritaires.
 
-Dans la version actuelle, le QR encode directement l’adresse saisie dans « Site web ». Il ouvre donc GitHub (ou l’adresse saisie), et non `carte.html`. Le code de cette page reste dans le projet, mais n’est pas appelé par les QR actuels.
+Le QR généré depuis le formulaire encode toujours directement l’adresse saisie dans « Site web ». Il ouvre donc GitHub (ou l’adresse saisie), et non `carte.html`.
 
 ## Parcours complet
 
 1. Le formulaire HTML recueille les informations.
 2. Le bouton « Générer le QR code » appelle `genererQR` avec l’adresse du champ « Site web ».
-3. Le bouton « Créer la carte » déclenche l’événement `submit` et `creation.js` construit l’aperçu.
+3. Le bouton « Créer la carte » déclenche l’événement `submit` ; `creation.js` construit l’aperçu et enregistre les données.
 4. Le même `genererQR` est appelé une seconde fois avec comme cible le conteneur de QR de la carte.
-5. Le téléphone lit l’adresse enregistrée dans le QR et ouvre cette destination.
+5. Le bouton « Voir la carte » ouvre `carte.html`, qui affiche la dernière carte enregistrée dans le navigateur.
+6. Le téléphone lit l’adresse enregistrée dans le QR et ouvre cette destination.
 
 ## 7. Page d’accueil : `html/index.html`
 
@@ -312,6 +313,8 @@ Chaque champ associe un `<label>` et un `<input>`. L’attribut `for` du label c
 
 Les boutons d’ajout et de suppression ont `type="button"` : ils exécutent leur action sans envoyer le formulaire. Le bouton « Créer la carte » a `type="submit"` : il déclenche l’événement `submit` traité par `creation.js`.
 
+Le champ « Thème de la carte » propose le style actuel, Luxe et Moderne / tech. Le thème choisi est sauvegardé avec les autres données et appliqué à l’aperçu.
+
 `#qrcode` accueille le QR généré par le bouton. `#card-preview` accueille ensuite l’aperçu complet construit par le JavaScript. `aria-live="polite"` indique aux technologies d’assistance que le contenu de cette zone peut être mis à jour sans interrompre brutalement la lecture.
 
 ## 10. Autres règles de `css/creation.css`
@@ -331,6 +334,7 @@ La première ligne importe `style.css` pour réutiliser le thème général.
 - `.business-card a` colore le lien du site sur la carte partagée et autorise la coupure des URL très longues.
 - `.shared-card` remplace la grille à deux colonnes par une seule, puisqu’une carte ouverte à partir de l’ancien lien encodé n’y affiche pas de QR.
 - `.business-card-qr` centre le QR dans une pastille claire.
+- Les sélecteurs `.business-card[data-theme="luxe"]` et `.business-card[data-theme="tech"]` appliquent les styles alternatifs ; sans attribut `data-theme`, la carte conserve le style actuel.
 
 La règle mobile sous `40rem` fait passer la carte de deux colonnes à une seule et recentre le QR. Les boutons du formulaire s’étirent aussi sur la largeur disponible.
 
@@ -402,7 +406,7 @@ Les commentaires dans cette fonction décrivent la création de la ligne, du tit
 
 Le bloc `if (!container)` arrête le script avec une erreur explicite si la page HTML ne contient pas le conteneur attendu.
 
-Si le paramètre `d` manque, `afficherErreur(...)` affiche un message. Sinon, un bloc `try` tente de décoder les données. Le code vérifie que le résultat est bien un objet et non un tableau ; un format incorrect déclenche une erreur.
+Si le paramètre `d` manque, le script lit la dernière carte enregistrée dans `localStorage`. Si aucune carte n’est disponible, `afficherErreur(...)` affiche un message. Sinon, un bloc `try` tente de décoder les données du lien ou de lire les données enregistrées. Le code vérifie que le résultat est bien un objet et non un tableau ; un format incorrect déclenche une erreur.
 
 Le script crée ensuite une section `.business-card`, ajoute le nom comme `<h2>`, puis utilise `ajouterInformation` pour l’email, le téléphone et le site. Les préfixes `mailto:` et `tel:` créent des liens pour envoyer un email ou appeler.
 

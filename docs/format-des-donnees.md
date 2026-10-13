@@ -21,7 +21,7 @@ Le site n'a ni serveur ni base de données (v1). Une carte est un simple **objet
   "firstName": "Camille",
   "lastName": "Durand",
   "title": "Développeuse web",
-  "theme": "minimal",
+  "theme": "classic",
   "links": [
     { "type": "github", "url": "https://github.com/exemple" },
     { "type": "linkedin", "url": "https://www.linkedin.com/in/exemple" }
@@ -39,7 +39,7 @@ Le site n'a ni serveur ni base de données (v1). Une carte est un simple **objet
 | `firstName` | texte | oui | 1 à 50 caractères, espaces en début et fin supprimés. |
 | `lastName` | texte | oui | 1 à 50 caractères, espaces en début et fin supprimés. |
 | `title` | texte | non | 0 à 80 caractères (par exemple « Développeur web »). |
-| `theme` | texte | oui | Un des thèmes existants : `minimal`, `luxe`, `tech`. Valeur inconnue = `minimal` par défaut. |
+| `theme` | texte | oui | Un des thèmes existants : `classic`, `luxe`, `tech`. Valeur inconnue ou absente = style actuel (`classic`). |
 | `links` | tableau | non | 0 à 8 liens. |
 | `links[].type` | texte | oui | Réseau choisi dans la liste (voir ci-dessous). |
 | `links[].url` | texte | oui | Doit commencer par `https://`. |
@@ -59,7 +59,7 @@ Toute donnée reçue (formulaire, URL, fichier importé, `localStorage`) est **v
 
 1. **URL** : seuls les liens commençant par `https://` sont acceptés. Les autres (`http://`, `javascript:`, `data:`, etc.) sont refusés.
 2. **Longueurs** : les limites du tableau ci-dessus sont appliquées ; au-delà, la saisie est refusée ou tronquée avec un message.
-3. **Thème** : s'il n'existe pas, on retombe sur `minimal`.
+3. **Thème** : seules les valeurs `luxe` et `tech` appliquent un style alternatif ; une valeur inconnue ou absente conserve le style actuel.
 4. **Type de lien** : s'il n'est pas connu, on utilise `other`.
 5. **Affichage** : le texte saisi par l'utilisateur est affiché comme du **texte** (`textContent`), jamais interprété comme du HTML (`innerHTML`). Cela évite l'injection de code (XSS).
 6. **Champs inconnus** : ignorés.
@@ -99,8 +99,8 @@ Par exemple, une fois le site publié sur GitHub Pages : `https://scorp984.githu
 
 ## 5. Stockage dans le navigateur (`localStorage`)
 
-- Les cartes de l'utilisateur sont conservées sous forme de liste d'objets carte.
-- Au chargement, chaque carte lue est **revalidée** (section 3) : une carte corrompue ou modifiée à la main est ignorée ou corrigée.
+- La dernière carte créée par le formulaire est conservée sous forme d'objet JSON sous la clé `carte-visite`.
+- La page « Carte » relit cette carte au chargement. Si un paramètre `d` est présent dans l'URL, il est utilisé à la place de la carte enregistrée.
 - La taille disponible est limitée (de l'ordre de quelques Mo selon le navigateur), ce qui reste très large pour des cartes de quelques centaines d'octets.
 - Les données sont propres à un navigateur sur un appareil : les cartes ne sont pas synchronisées.
 

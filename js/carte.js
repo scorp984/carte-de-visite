@@ -1,5 +1,6 @@
 const container = document.getElementById("shared-card");// Récupère le conteneur où la carte sera affichée
 const encodedCard = new URLSearchParams(window.location.search).get("d"); //Récupère la valeur du paramètre "d" dans l'URL
+const storageKey = "carte-visite";
 
 function afficherErreur(message) { // Fonction pour afficher un message d'erreur dans le conteneur
     const erreur = document.createElement("p"); // Crée un élément <p> pour afficher le message d'erreur
@@ -41,17 +42,21 @@ if (!container) {// Vérifie si le conteneur de la carte est présent dans le DO
     throw new Error("Le conteneur de la carte est introuvable.");// Vérifie si le conteneur de la carte est présent dans le DOM, sinon lance une erreur
 }
 
-if (!encodedCard) {// Vérifie si les données de la carte sont présentes dans l'URL
-    afficherErreur("Aucune donnée de carte n’a été fournie dans ce lien.");// Affiche un message d'erreur si aucune donnée de carte n'est fournie dans l'URL
-} else {
-    try {
-        const data = decoderCarte(encodedCard);// Décode les données de la carte encodées en base64 et les parse en un objet JavaScript
+try {
+    const savedCard = encodedCard ? null : localStorage.getItem(storageKey); // Récupère la carte enregistrée dans le localStorage si aucune carte encodée n'est présente dans l'URL
+    if (!encodedCard && !savedCard) { // Vérifie si aucune carte encodée n'est présente dans l'URL et si aucune carte n'est enregistrée dans le localStorage
+        afficherErreur("Aucune carte enregistrée. Crée d’abord une carte depuis la page de création.");// Affiche un message d'erreur si aucune carte n'est disponible
+    } else {
+        const data = encodedCard ? decoderCarte(encodedCard) : JSON.parse(savedCard); // Décode les données de la carte à partir de l'URL ou du localStorage selon le cas
         if (!data || typeof data !== "object" || Array.isArray(data)) {// Vérifie si les données décodées sont valides (un objet non vide)
             throw new Error("Format de carte invalide.");// Lance une erreur si le format de la carte est invalide
         }
 
         const card = document.createElement("section");// Crée un élément <section> pour contenir la carte
         card.className = "business-card shared-card";// Ajoute une classe CSS pour le style de la carte
+        if (data.theme === "luxe" || data.theme === "tech") {
+            card.dataset.theme = data.theme;
+        }
 
         const heading = document.createElement("h2");// Crée un élément <h2> pour le titre de la carte
         heading.textContent = typeof data.nom === "string" && data.nom ? data.nom : "Carte de visite";
@@ -79,8 +84,10 @@ if (!encodedCard) {// Vérifie si les données de la carte sont présentes dans 
         }
 
         container.replaceChildren(card);// Remplace le contenu du conteneur par la carte générée
-    } catch (error) {
-        afficherErreur("Impossible de lire les informations de cette carte. Vérifie que le QR code est complet.");
-        console.error("Erreur lors du décodage de la carte :", error);
     }
+} catch (error) {
+    afficherErreur(encodedCard
+        ? "Impossible de lire les informations de cette carte. Vérifie que le QR code est complet."
+        : "Impossible de lire la carte enregistrée. Crée une nouvelle carte.");
+    console.error("Erreur lors du chargement de la carte :", error);
 }

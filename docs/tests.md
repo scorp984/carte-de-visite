@@ -17,7 +17,7 @@ Ce document liste les tests à faire sur le site avant chaque publication. Le pr
 | F2 | Carte complète | Remplir tous les champs et ajouter plusieurs liens | Tous les éléments apparaissent sur la carte | À faire |
 | F3 | Champs obligatoires | Laisser le prénom ou le nom vide | Message d'erreur clair, pas de carte générée | À faire |
 | F4 | Aperçu en direct | Modifier un champ | L'aperçu se met à jour sans recharger | À faire |
-| F5 | Changement de thème | Passer de `minimal` à `luxe` puis `tech` | Le style change, les données restent identiques | À faire |
+| F5 | Changement de thème | Choisir le style actuel, `luxe` puis `tech` | Le style change, les données restent identiques, et le thème choisi est conservé sur la carte partagée | À faire |
 | F6 | Ajout de lien | Ajouter un lien d'un type de la liste | L'icône correspondante s'affiche | À faire |
 | F7 | Lien d'un site inconnu | Ajouter un lien de type `other` | L'icône générique s'affiche | À faire |
 | F8 | Suppression de lien | Supprimer un lien | Il disparaît de la carte et du QR | À faire |
@@ -56,7 +56,7 @@ Ce document liste les tests à faire sur le site avant chaque publication. Le pr
 | ID | Cas | Étapes | Résultat attendu | Statut |
 |---|---|---|---|---|
 | Q1 | Scan standard | Scanner le QR avec l'appareil photo d'un téléphone | La carte s'ouvre via le bon lien | À faire |
-| Q2 | Un test par thème | Scanner le QR sur `minimal`, `luxe`, `tech` | Scan réussi pour chacun | À faire |
+| Q2 | Un test par thème | Scanner le QR sur le style actuel, `luxe`, `tech` | Scan réussi pour chacun | À faire |
 | Q3 | Plusieurs téléphones | Tester sur un téléphone Android et un iPhone si possible | Scan réussi | À faire |
 | Q4 | Petite taille | Réduire l'affichage du QR | Reste lisible à une taille raisonnable | À faire |
 | Q5 | Carte chargée | Remplir tous les champs au maximum | Le QR se génère et se scanne (sinon, réduire les données) | À faire |
@@ -68,7 +68,7 @@ Ce document liste les tests à faire sur le site avant chaque publication. Le pr
 
 | ID | Cas | Étapes | Résultat attendu | Statut |
 |---|---|---|---|---|
-| L1 | Persistance | Créer une carte, recharger la page | La carte est retrouvée | À faire |
+| L1 | Persistance | Créer une carte, cliquer sur « Voir la carte », puis recharger la page « Carte » | La carte créée est affichée à nouveau | À faire |
 | L2 | Plusieurs cartes | Créer 3 cartes différentes | Elles sont toutes listées et ouvrables | À faire |
 | L3 | Suppression | Supprimer une carte | Elle disparaît, les autres restent | À faire |
 | L4 | Export | Exporter les cartes | Un fichier `.json` valide est téléchargé | À faire |

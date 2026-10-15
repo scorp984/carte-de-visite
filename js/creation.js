@@ -4,6 +4,7 @@ const conteneurReseaux = document.getElementById("social-links");
 const boutonSuppressionReseau = document.getElementById("remove-social");
 const formulaire = document.getElementById("creation-form");
 const apercuCarte = document.getElementById("card-preview");
+const LIMITE_RESEAUX = 3;
 
 // Arrête le script immédiatement si la page ne contient pas un élément requis.
 if (formulaire && (!boutonAjoutReseau || !conteneurReseaux || !boutonSuppressionReseau || !apercuCarte)) {
@@ -11,9 +12,20 @@ if (formulaire && (!boutonAjoutReseau || !conteneurReseaux || !boutonSuppression
 }
 
 // Sert à donner un identifiant unique à chaque nouveau champ de réseau social.
-let nombreReseaux = 2;
+let nombreReseaux = 1;
+
+function mettreAJourBoutonAjout() {
+    if (boutonAjoutReseau && conteneurReseaux) {
+        boutonAjoutReseau.disabled = conteneurReseaux.querySelectorAll(".social-link-field").length >= LIMITE_RESEAUX;
+    }
+}
 
 function ajouterChamp() {
+    if (conteneurReseaux.querySelectorAll(".social-link-field").length >= LIMITE_RESEAUX) {
+        mettreAJourBoutonAjout();
+        return;
+    }
+
     // Crée un groupe contenant le libellé et le champ du nouveau réseau.
     const champId = `social-${nombreReseaux}`;
     const groupe = document.createElement("div");
@@ -35,6 +47,7 @@ function ajouterChamp() {
     conteneurReseaux.appendChild(groupe);
     // Incrémente le numéro pour que le prochain identifiant soit différent.
     nombreReseaux += 1;
+    mettreAJourBoutonAjout();
 }
 
 function supprimerChamp() {
@@ -46,6 +59,7 @@ function supprimerChamp() {
 
     dernierGroupe.remove();
     nombreReseaux -= 1;
+    mettreAJourBoutonAjout();
 }
 
 function ajouterInformation(parent, etiquette, valeur) {
@@ -58,20 +72,25 @@ function ajouterInformation(parent, etiquette, valeur) {
     parent.appendChild(ligne);
 }
 
-// Intercepte l'envoi du formulaire pour afficher la carte sans recharger la page.
-formulaire?.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    // FormData associe chaque valeur saisie à l'attribut name de son champ.
+function recupererDonneesCarteDepuisFormulaire(formulaire) {
     const donnees = new FormData(formulaire);
-    const donneesCarte = {
+    return {
         nom: donnees.get("name"),
         email: donnees.get("email"),
         telephone: donnees.get("phone"),
         lien: donnees.get("website"),
         theme: donnees.get("theme"),
-        reseaux: donnees.getAll("social").filter((reseau) => reseau.trim() !== "")
+        reseaux: donnees.getAll("social")
+            .filter((reseau) => typeof reseau === "string" && reseau.trim() !== "")
+            .slice(0, LIMITE_RESEAUX)
     };
+}
+
+// Intercepte l'envoi du formulaire pour afficher la carte sans recharger la page.
+formulaire?.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const donneesCarte = recupererDonneesCarteDepuisFormulaire(formulaire);
     const carte = document.createElement("section");
     carte.className = "business-card";
     if (donneesCarte.theme === "luxe" || donneesCarte.theme === "tech") {
@@ -85,16 +104,16 @@ formulaire?.addEventListener("submit", (event) => {
 
     // Ajoute le nom comme titre principal de la carte.
     const titre = document.createElement("h2");
-    titre.textContent = donnees.get("name");
+    titre.textContent = donneesCarte.nom;
     carte.appendChild(titre);
 
     // Ajoute les coordonnées principales à l'aperçu.
-    ajouterInformation(carte, "Email", donnees.get("email"));
-    ajouterInformation(carte, "Téléphone", donnees.get("phone"));
+    ajouterInformation(carte, "Email", donneesCarte.email);
+    ajouterInformation(carte, "Téléphone", donneesCarte.telephone);
 
     // getAll récupère tous les champs portant name="social" ; les champs vides
     // sont ignorés pour ne pas afficher de lignes sans contenu.
-    const reseaux = donnees.getAll("social").filter((reseau) => reseau.trim() !== "");
+    const reseaux = donneesCarte.reseaux;
     if (reseaux.length > 0) {// Vérifie si des réseaux sociaux ont été saisis
         const titreReseaux = document.createElement("h3");// Crée un élément <h3> pour le titre des réseaux sociaux
         titreReseaux.textContent = "Réseaux sociaux";// Définit le texte du titre des réseaux sociaux
@@ -109,10 +128,11 @@ formulaire?.addEventListener("submit", (event) => {
         carte.appendChild(listeReseaux);// Ajoute la liste des réseaux sociaux à la carte
     }
 
-    // Génère le QR de la carte avec la même adresse que celle saisie dans le site.
+    // Génère le QR de la carte, pas du site web seul.
     const qrCarte = document.createElement("div"); // Conteneur pour le QR code
     qrCarte.className = "business-card-qr";// Ajoute une classe CSS pour le style du QR code
-    genererQR(donnees.get("website"), qrCarte);// Appelle la fonction pour générer le QR code et l'ajouter au conteneur
+    const urlPartage = construireUrlCarte(donneesCarte);
+    genererQR(urlPartage, qrCarte);// Appelle la fonction pour générer le QR code et l'ajouter au conteneur
     carte.appendChild(qrCarte);// Ajoute le conteneur du QR code à la carte
 
     // Remplace l'ancien aperçu par la carte qui vient d'être créée.
@@ -136,3 +156,4 @@ if (boutonAjoutReseau) {
 if (boutonSuppressionReseau) {
     boutonSuppressionReseau.addEventListener("click", supprimerChamp);
 }
+mettreAJourBoutonAjout();

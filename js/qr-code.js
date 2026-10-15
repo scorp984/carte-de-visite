@@ -1,6 +1,27 @@
 const qrBox = document.getElementById("qrcode");// Récupère le conteneur où le QR code sera affiché
 let qr = null;// Variable pour stocker l'instance du QR code généré
 
+function encoderCartePourUrl(donneesCarte) {
+  if (!donneesCarte || typeof donneesCarte !== "object") {
+    throw new Error("Les données de la carte sont invalides.");
+  }
+
+  const json = JSON.stringify(donneesCarte);
+  const bytes = new TextEncoder().encode(json);
+  let binaire = "";
+  bytes.forEach((octet) => {
+    binaire += String.fromCharCode(octet);
+  });
+
+  return btoa(binaire);
+}
+
+function construireUrlCarte(donneesCarte) {
+  const urlCarte = new URL("carte.html", window.location.href);
+  urlCarte.searchParams.set("d", encoderCartePourUrl(donneesCarte));
+  return urlCarte.toString();
+}
+
 function genererQR(url, cible = qrBox) {
   if (!cible) {// Vérifie si le conteneur cible est présent dans le DOM
     throw new Error("Le conteneur du QR code est introuvable.");
@@ -26,11 +47,28 @@ document.addEventListener("DOMContentLoaded", () => {// Attache un écouteur d'�
   if (!generateButton) return;// Vérifie si le bouton est présent dans le DOM, sinon quitte la fonction
 
   generateButton.addEventListener("click", () => {// Attache un écouteur d'événement pour exécuter le code lorsque le bouton est cliqué
-    const websiteInput = document.getElementById("website");// Récupère le champ de saisie pour l'URL du site web
-    if (!(websiteInput instanceof HTMLInputElement) || !websiteInput.reportValidity()) {// Vérifie si le champ de saisie est valide, sinon quitte la fonction
-      return;// Quitte la fonction si le champ de saisie n'est pas valide
+    const formulaire = document.getElementById("creation-form");
+    if (!(formulaire instanceof HTMLFormElement)) {
+      return;
     }
 
-    genererQR(websiteInput.value);// Appelle la fonction pour générer le QR code avec l'URL saisie dans le champ de saisie
+    const donnees = new FormData(formulaire);
+    const donneesCarte = {
+      nom: donnees.get("name"),
+      email: donnees.get("email"),
+      telephone: donnees.get("phone"),
+      lien: donnees.get("website"),
+      theme: donnees.get("theme"),
+      reseaux: donnees.getAll("social")
+        .filter((reseau) => typeof reseau === "string" && reseau.trim() !== "")
+        .slice(0, 3)
+    };
+
+    if (!formulaire.reportValidity()) {
+      return;
+    }
+
+    const urlCarte = construireUrlCarte(donneesCarte);
+    genererQR(urlCarte);
   });
 });

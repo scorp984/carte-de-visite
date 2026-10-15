@@ -79,23 +79,23 @@ try {
             card.appendChild(qr);
         }
 
-        if (Array.isArray(data.reseaux) && data.reseaux.length > 0) {// Vérifie si les réseaux sociaux sont présents et non vides
+        const reseaux = Array.isArray(data.reseaux)
+            ? data.reseaux.filter((network) => typeof network === "string" && network.trim() !== "").slice(0, 3)
+            : [];
+        if (reseaux.length > 0) {// Vérifie si les réseaux sociaux sont présents et non vides
             const title = document.createElement("h3");//   Crée un élément <h3> pour le titre des réseaux sociaux
             title.textContent = "Réseaux sociaux";// Définit le texte du titre des réseaux sociaux
             card.appendChild(title);// Ajoute le titre des réseaux sociaux à la carte
 
             const list = document.createElement("ul");// Crée un élément <ul> pour contenir la liste des réseaux sociaux
-            data.reseaux.forEach((network) => {// Parcourt chaque réseau social dans le tableau des réseaux sociaux
-                if (typeof network !== "string" || network.trim() === "") {// Vérifie si le réseau social est une chaîne de caractères non vide
-                    return;// Ignore les réseaux sociaux qui ne sont pas des chaînes de caractères non vides
-                }
+            reseaux.forEach((network) => {// Parcourt chaque réseau social dans le tableau des réseaux sociaux
                 const item = document.createElement("li");// Crée un élément <li> pour chaque réseau social
                 item.textContent = network;// Définit le texte de l'élément <li> avec le nom du réseau social
                 list.appendChild(item);// Ajoute l'élément <li> à la liste des réseaux sociaux
             });
+
             card.appendChild(list);// Ajoute la liste des réseaux sociaux à la carte
         }
-
         container.replaceChildren(card);// Remplace le contenu du conteneur par la carte générée
     }
 } catch (error) {

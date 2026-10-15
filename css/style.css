@@ -74,24 +74,18 @@ body::before {
     pointer-events: none;
 }
 
-/* ---------- Tableau des fonctionnalités ---------- */
+/* ---------- Fonctionnalités de l'accueil ---------- */
 
-table {
-    display: block;
-    width: 100%;
-}
-
-tbody {
-    display: block;
-}
-
-tr {
+.fonctionnalites {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: clamp(1.25rem, 3vw, 2.5rem);
+    margin: 0 0 3rem;
+    padding: 0;
+    list-style: none;
 }
 
-th {
+.fonctionnalites li {
     padding-top: 1.1rem;
     border-top: 4px solid var(--ocre);
     color: var(--encre);
@@ -99,11 +93,10 @@ th {
     font-size: 1.4rem;
     font-weight: 600;
     line-height: 1.25;
-    text-align: left;
     text-transform: capitalize;
 }
 
-/* ---------- Bouton principal ---------- */
+/* ---------- Boutons et liens d'action ---------- */
 
 button {
     margin-top: 2rem;
@@ -125,10 +118,11 @@ button:active {
     transform: translateY(0);
 }
 
-button a {
+.bouton {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    margin-top: 2rem;
     padding: 0.95rem 1.8rem;
     color: #fffdf8;
     font-family: var(--police-titre);
@@ -137,10 +131,24 @@ button a {
     letter-spacing: 0.08em;
     text-decoration: none;
     text-transform: uppercase;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--bordeaux), #9a3a3d);
+    box-shadow: 0 0.9rem 1.75rem rgba(122, 42, 46, 0.22);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.bouton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 1.1rem 2rem rgba(122, 42, 46, 0.28);
+    filter: brightness(1.03);
+}
+
+.bouton:active {
+    transform: translateY(0);
 }
 
 button:focus-visible,
-button a:focus-visible {
+.bouton:focus-visible {
     outline: 3px solid #f7d79c;
     outline-offset: 4px;
 }
@@ -165,7 +173,7 @@ button a:focus-visible {
 }
 
 @media (max-width: 40rem) {
-    tr {
+    .fonctionnalites {
         grid-template-columns: 1fr;
         gap: 1.75rem;
     }

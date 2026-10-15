@@ -11,41 +11,41 @@
     <title>Créer une carte de visite</title>
 </head>
 <body>
-    <h1>Création rapide</h1>
-    <p>Bienvenue sur la page de création rapide !</p>
-    
-    <form id="creation-form">
-        <label for="name">Nom de l'entreprise :</label>
-        <input type="text" id="name" name="name" required>
-        
-        <label for="email">Email :</label>
-        <input type="email" id="email" name="email" required>
+    <main>
+        <h1>Création rapide</h1>
+        <p>Bienvenue sur la page de création rapide !</p>
 
-        <label for="phone">Numéro de téléphone :</label>
-        <input type="tel" id="phone" name="phone" required>
+        <form id="creation-form">
+            <label for="name">Nom de l'entreprise :</label>
+            <input type="text" id="name" name="name" required>
 
-        <label for="theme">Thème de la carte :</label>
-        <select id="theme" name="theme">
-            <option value="classic">Style actuel</option>
-            <option value="luxe">Luxe</option>
-            <option value="tech">Moderne / tech</option>
-        </select>
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email" required>
 
-        <label for="website">Site web  ou réseaux sociaux:</label>
-        <input type="url" id="website" name="website"  placeholder="Ex: Facebook, Twitter, Instagram , github"required>
-        <button id="generate-qr" type="button">Générer le QR code</button>
-        <button type="button" id="add-social">Ajouter un réseau social</button>
-        <div id="social-links"></div>
-        <button type="button" id="remove-social">Supprimer le dernier réseau social</button>
+            <label for="phone">Numéro de téléphone :</label>
+            <input type="tel" id="phone" name="phone" required>
 
-        <div id="qrcode"></div>
-        
-        <button type="submit">Créer la carte</button>
-    </form>
-    <button id="carte"><a href = "carte.html">Voir la carte</a></button>
+            <label for="theme">Thème de la carte :</label>
+            <select id="theme" name="theme">
+                <option value="classic">Style actuel</option>
+                <option value="luxe">Luxe</option>
+                <option value="tech">Moderne / tech</option>
+            </select>
 
-    <div id="card-preview" aria-live="polite"></div>
-    <button id = "retour"><a href="index.html">Retour</a></button>
-    <button id="download-pdf" type="button" hidden>Télécharger en PDF</button>
+            <label for="website">Site web ou réseaux sociaux :</label>
+            <input type="url" id="website" name="website" placeholder="Ex. https://exemple.com" required>
+            <button type="button" id="add-social">Ajouter un réseau social</button>
+            <div id="social-links"></div>
+            <button type="button" id="remove-social">Supprimer le dernier réseau social</button>
+            <button type="submit">Créer la carte</button>
+        </form>
+
+        <div id="card-preview" aria-live="polite"></div>
+        <nav aria-label="Navigation de la carte">
+            <a class="bouton" href="carte.html">Voir la carte</a>
+            <a class="bouton" href="index.html">Retour</a>
+        </nav>
+        <button id="download-pdf" type="button" hidden>Télécharger en PDF</button>
+    </main>
 </body>
 </html>

@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/creation.css">
     <title>Carte de visite</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+    <script src="../js/qr-code.js" defer></script>
     <script src="../js/carte.js" defer></script>
     <script src="../js/creation.js" defer></script>
-    <script src="../js/qr-code.js" defer></script>
+    <script src="../js/pdf-download.js" defer></script>
 </head>
 <body>
     <h1>Carte de visite</h1>
     <main id="shared-card" aria-live="polite"></main>
+    <button id="download-pdf" type="button" hidden>Télécharger en PDF</button>
 </body>
 </html>

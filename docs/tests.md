@@ -22,6 +22,8 @@ Ce document liste les tests à faire sur le site avant chaque publication. Le pr
 | F7 | Lien d'un site inconnu | Ajouter un lien de type `other` | L'icône générique s'affiche | À faire |
 | F8 | Suppression de lien | Supprimer un lien | Il disparaît de la carte et du QR | À faire |
 | F9 | Limite de liens | Ajouter plus de 8 liens | Le 9e est refusé avec un message | À faire |
+| F10 | Téléchargement PDF | Créer une carte, cliquer sur « Télécharger en PDF », puis choisir « Enregistrer au format PDF » dans la fenêtre d'impression | Le PDF téléchargé contient uniquement la carte, au format carte de visite | À faire |
+| F11 | Site web sous forme de QR code | Créer une carte puis ouvrir « Voir la carte » | Le site web est encodé dans un QR code et n'apparaît pas comme lien texte | OK |
 
 ## 3. Tests des données et de l'encodage
 

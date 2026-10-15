@@ -69,7 +69,15 @@ try {
 
         ajouterInformation(card, "Email", data.email, data.email ? `mailto:${data.email}` : null);// Ajoute l'information de l'email à la carte avec un lien mailto si l'email est présent
         ajouterInformation(card, "Téléphone", data.telephone, data.telephone ? `tel:${data.telephone}` : null);// Ajoute l'information du téléphone à la carte avec un lien tel si le téléphone est présent
-        ajouterInformation(card, "Site web", data.lien, data.lien);// Ajoute l'information du site web à la carte avec un lien si le site web est présent
+
+        if (typeof data.lien === "string" && data.lien.trim() !== "") {
+            const qr = document.createElement("div");
+            qr.className = "business-card-qr";
+            qr.setAttribute("role", "img");
+            qr.setAttribute("aria-label", "QR code vers le site web");
+            genererQR(data.lien, qr);
+            card.appendChild(qr);
+        }
 
         if (Array.isArray(data.reseaux) && data.reseaux.length > 0) {// Vérifie si les réseaux sociaux sont présents et non vides
             const title = document.createElement("h3");//   Crée un élément <h3> pour le titre des réseaux sociaux

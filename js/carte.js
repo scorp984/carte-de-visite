@@ -71,13 +71,15 @@ try {
         ajouterInformation(card, "Téléphone", data.telephone, data.telephone ? `tel:${data.telephone}` : null);// Ajoute l'information du téléphone à la carte avec un lien tel si le téléphone est présent
 
         if (typeof data.lien === "string" && data.lien.trim() !== "") {
-            const qr = document.createElement("div");
-            qr.className = "business-card-qr";
-            qr.setAttribute("role", "img");
-            qr.setAttribute("aria-label", "QR code vers le site web");
-            genererQR(data.lien, qr);
-            card.appendChild(qr);
+            ajouterInformation(card, "Site web", data.lien, obtenirLienHttps(data.lien));
         }
+
+        const qr = document.createElement("div");
+        qr.className = "business-card-qr";
+        qr.setAttribute("role", "img");
+        qr.setAttribute("aria-label", "QR code vers cette carte de visite");
+        genererQR(construireUrlCarte(data), qr);
+        card.appendChild(qr);
 
         const reseaux = Array.isArray(data.reseaux)
             ? data.reseaux.filter((network) => typeof network === "string" && network.trim() !== "").slice(0, 3)

@@ -22,6 +22,19 @@ function construireUrlCarte(donneesCarte) {
   return urlCarte.toString();
 }
 
+function obtenirLienHttps(valeur) {
+  if (typeof valeur !== "string" || valeur.trim() === "") {
+    return null;
+  }
+
+  try {
+    const url = new URL(valeur);
+    return url.protocol === "https:" ? url.href : null;
+  } catch {
+    return null;
+  }
+}
+
 function genererQR(url, cible = qrBox) {
   if (!cible) {// Vérifie si le conteneur cible est présent dans le DOM
     throw new Error("Le conteneur du QR code est introuvable.");

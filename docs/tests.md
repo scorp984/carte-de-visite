@@ -23,7 +23,7 @@ Ce document liste les tests à faire sur le site avant chaque publication. Le pr
 | F8 | Suppression de lien | Supprimer un lien | Il disparaît de la carte et du QR | À faire |
 | F9 | Limite de liens | Ajouter plus de 8 liens | Le 9e est refusé avec un message | À faire |
 | F10 | Téléchargement PDF | Créer une carte, cliquer sur « Télécharger en PDF », puis choisir « Enregistrer au format PDF » dans la fenêtre d'impression | Le PDF téléchargé contient uniquement la carte, au format carte de visite | À faire |
-| F11 | Site web sous forme de QR code | Créer une carte puis ouvrir « Voir la carte » | Le site web est encodé dans un QR code et n'apparaît pas comme lien texte | OK |
+| F11 | Partage de la carte par QR code | Créer une carte puis ouvrir « Voir la carte » | Le QR code ouvre la carte partagée ; le site web reste un lien séparé sur la carte | À faire |
 
 ## 3. Tests des données et de l'encodage
 

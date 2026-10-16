@@ -62,13 +62,22 @@ function supprimerChamp() {
     mettreAJourBoutonAjout();
 }
 
-function ajouterInformation(parent, etiquette, valeur) {
+function ajouterInformation(parent, etiquette, valeur, href) {
     // Construit une ligne d'information en ajoutant le contenu comme texte,
     // sans interpréter les valeurs saisies comme du code HTML.
     const ligne = document.createElement("p");
     const titre = document.createElement("strong");
     titre.textContent = `${etiquette} : `;
-    ligne.append(titre, document.createTextNode(valeur));
+    ligne.appendChild(titre);
+    if (href) {
+        const lien = document.createElement("a");
+        lien.href = href;
+        lien.rel = "noopener noreferrer";
+        lien.textContent = valeur;
+        ligne.appendChild(lien);
+    } else {
+        ligne.appendChild(document.createTextNode(valeur));
+    }
     parent.appendChild(ligne);
 }
 
@@ -110,6 +119,9 @@ formulaire?.addEventListener("submit", (event) => {
     // Ajoute les coordonnées principales à l'aperçu.
     ajouterInformation(carte, "Email", donneesCarte.email);
     ajouterInformation(carte, "Téléphone", donneesCarte.telephone);
+    if (typeof donneesCarte.lien === "string" && donneesCarte.lien.trim() !== "") {
+        ajouterInformation(carte, "Site web", donneesCarte.lien, obtenirLienHttps(donneesCarte.lien));
+    }
 
     // getAll récupère tous les champs portant name="social" ; les champs vides
     // sont ignorés pour ne pas afficher de lignes sans contenu.
@@ -131,6 +143,8 @@ formulaire?.addEventListener("submit", (event) => {
     // Génère le QR de la carte, pas du site web seul.
     const qrCarte = document.createElement("div"); // Conteneur pour le QR code
     qrCarte.className = "business-card-qr";// Ajoute une classe CSS pour le style du QR code
+    qrCarte.setAttribute("role", "img");
+    qrCarte.setAttribute("aria-label", "QR code vers cette carte de visite");
     const urlPartage = construireUrlCarte(donneesCarte);
     genererQR(urlPartage, qrCarte);// Appelle la fonction pour générer le QR code et l'ajouter au conteneur
     carte.appendChild(qrCarte);// Ajoute le conteneur du QR code à la carte

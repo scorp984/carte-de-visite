@@ -58,13 +58,6 @@ Puis va sur `http://localhost:8000/html/index.html`.
 > **Important :** en local, le QR code pointe vers `localhost` ou `file://`, donc il ne fonctionnera pas sur un autre appareil.
 > Pour qu'il soit scannable depuis un téléphone, le site doit être en ligne (voir ci-dessous).
 
-## Mise en ligne (GitHub Pages)
-
-1. Pousse le projet sur GitHub.
-2. Dans **Settings → Pages**, choisis la branche `main` et le dossier `/ (root)`.
-3. Le site sera disponible à l'adresse `https://scorp984.github.io/carte-de-visite/html/index.html`.
-4. Crée une carte **depuis cette adresse** pour que le QR code contienne la bonne URL.
-
 ## Technologies
 
 - HTML5, CSS3 (grid, variables CSS, media queries, styles d'impression)
